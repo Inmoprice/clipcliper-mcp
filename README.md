@@ -22,6 +22,8 @@ the server and nothing is charged twice. Results are cached for 24 hours per url
 
 ## Connect
 
+Listed on [Smithery](https://smithery.ai/servers/clipcliper/clipcliper) (one-click setup for Claude, Cursor and other clients) and submitted to the Glama registry.
+
 **Remote (recommended)**, Streamable HTTP:
 
 ```
