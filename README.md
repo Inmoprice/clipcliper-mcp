@@ -74,12 +74,18 @@ it straight from GitHub: `npx -y github:Inmoprice/clipcliper-mcp`.
 ## Keys and pricing
 
 - **Without a key**: each IP can process 3 videos per day of up to 15 minutes. Good for trying it.
-- **With a key**: buy an hour pack at [clipcliper.com](https://clipcliper.com) (12 h for USD 39,
-  30 h for USD 79, one-time, hours never expire). Every video costs one pack hour per started
-  hour of video. Chapters and clip suggestions on a transcribed video are free.
+- **With a key**: minute packs at [clipcliper.com/mcp](https://clipcliper.com/mcp), one-time, minutes never expire:
 
-The key is the license key you get after purchase (the same one the CLIPCLIPER desktop app uses).
-Send it as `Authorization: Bearer <key>`; it never goes in tool arguments or URLs.
+| Pack | Price | Minutes | Per minute |
+|---|---|---|---|
+| Starter | USD 9 | 600 | USD 0.015 |
+| Pro | USD 29 | 3,000 | USD 0.0097 |
+| Scale | USD 79 | 12,000 | USD 0.0066 |
+
+Every video costs one pack minute per started minute of video; chapters and clip suggestions on
+a transcribed video are free. The license key is shown after checkout and emailed to you. Send it
+as `Authorization: Bearer <key>` (or `X-License-Key`); it never goes in tool arguments or URLs.
+Hour packs of the CLIPCLIPER desktop app also work here (one pack hour per started hour).
 
 ## REST
 
