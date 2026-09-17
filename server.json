@@ -35,7 +35,7 @@
       "environmentVariables": [
         {
           "name": "CLIPCLIPER_LICENSE_KEY",
-          "description": "License key from any CLIPCLIPER hour pack. Optional: without it the free tier applies.",
+          "description": "License key from any CLIPCLIPER minute pack (clipcliper.com/mcp). Optional: without it the free tier applies.",
           "isRequired": false,
           "isSecret": true
         }

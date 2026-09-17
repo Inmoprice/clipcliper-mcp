@@ -83,7 +83,7 @@ it straight from GitHub: `npx -y github:Inmoprice/clipcliper-mcp`.
 | Scale | USD 79 | 12,000 | USD 0.0066 |
 
 Every video costs one pack minute per started minute of video; chapters and clip suggestions on
-a transcribed video are free. The license key is shown after checkout and emailed to you. Send it
+a transcribed video are free. The license key is emailed to you right after checkout. Send it
 as `Authorization: Bearer <key>` (or `X-License-Key`); it never goes in tool arguments or URLs.
 Hour packs of the CLIPCLIPER desktop app also work here (one pack hour per started hour).
 
