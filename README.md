@@ -1,5 +1,7 @@
 # CLIPCLIPER MCP server
 
+[![smithery badge](https://smithery.ai/badge/clipcliper/clipcliper)](https://smithery.ai/servers/clipcliper/clipcliper)
+
 Give your agent a public video link and get back a **timestamped transcript**, **chapters** and
 **clip suggestions**. Works with YouTube (videos, shorts, live replays), Twitch VODs, Kick VODs
 and TikTok, including the platforms that block datacenter IPs.
