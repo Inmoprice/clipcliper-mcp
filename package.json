@@ -1,0 +1,50 @@
+{
+  "name": "clipcliper-mcp",
+  "version": "1.0.0",
+  "description": "MCP server that turns a public video link (YouTube, Twitch, Kick, TikTok) into a timestamped transcript, chapters and clip suggestions. Bridge to the hosted CLIPCLIPER MCP endpoint.",
+  "type": "module",
+  "bin": {
+    "clipcliper-mcp": "bin/clipcliper-mcp.js"
+  },
+  "files": [
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node bin/clipcliper-mcp.js",
+    "test": "node test/bridge-smoke.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0"
+  },
+  "mcpName": "io.github.inmoprice/clipcliper",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Inmoprice/clipcliper-mcp.git"
+  },
+  "homepage": "https://clipcliper.com",
+  "bugs": {
+    "email": "support@clipcliper.com"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "transcript",
+    "transcription",
+    "youtube",
+    "twitch",
+    "kick",
+    "tiktok",
+    "whisper",
+    "chapters",
+    "clips",
+    "podcast",
+    "ai-agents"
+  ],
+  "license": "MIT"
+}

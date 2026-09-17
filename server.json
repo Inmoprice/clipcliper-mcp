@@ -1,0 +1,45 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.inmoprice/clipcliper",
+  "title": "CLIPCLIPER",
+  "description": "Turn a public video link (YouTube, Twitch, Kick, TikTok) into a timestamped transcript, chapters and clip suggestions. Hosted; free tier without a key.",
+  "repository": {
+    "url": "https://github.com/Inmoprice/clipcliper-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://clipcliper.com",
+  "version": "1.0.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://clipcliper.com/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer <CLIPCLIPER license key>. Optional: without it, up to 3 videos per day of up to 15 minutes per IP.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "clipcliper-mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "CLIPCLIPER_LICENSE_KEY",
+          "description": "License key from any CLIPCLIPER hour pack. Optional: without it the free tier applies.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
