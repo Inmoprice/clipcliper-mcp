@@ -13,7 +13,8 @@
   ],
   "scripts": {
     "start": "node bin/clipcliper-mcp.js",
-    "test": "node test/bridge-smoke.mjs"
+    "test": "node test/bridge-smoke.mjs",
+    "publish-registry": "node scripts/publish-registry.mjs"
   },
   "engines": {
     "node": ">=18"
@@ -21,7 +22,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0"
   },
-  "mcpName": "io.github.inmoprice/clipcliper",
+  "mcpName": "com.clipcliper/clipcliper",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Inmoprice/clipcliper-mcp.git"
