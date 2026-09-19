@@ -1,0 +1,80 @@
+# External health check of the hosted endpoint, from outside our own infrastructure.
+#
+# Every 15 minutes it does what a directory health check does (MCP `initialize` + `tools/list`)
+# against https://clipcliper.com/mcp, which sits behind Cloudflare, and against the origin directly,
+# so a failure tells us WHERE it broke:
+#   - VERDICT blip                  one attempt failed, recovered within a minute
+#   - VERDICT cloudflare-path-down  Cloudflare cannot reach the server, the server itself answers
+#   - VERDICT server-down           nothing answers
+# The run fails on any of the three (GitHub emails the repository owner). The step that failed
+# carries the verdict in its name; keep the "VERDICT <code>:" prefix, reports parse it.
+#
+# Notes: scheduled runs are best effort (GitHub may delay or skip them under load) and GitHub
+# disables schedules in repositories with no activity for 60 days.
+name: Endpoint health
+
+on:
+  schedule:
+    # Off the hour marks on purpose: GitHub's scheduler is busiest at :00, :15, :30 and :45.
+    - cron: "7,22,37,52 * * * *"
+  workflow_dispatch:
+    inputs:
+      cloudflare_url:
+        description: "Probe this URL instead of the real endpoint (to exercise the failure path)"
+        required: false
+        type: string
+      origin_url:
+        description: "Probe this URL instead of the real origin (to exercise the failure path)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: endpoint-health
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      CF_URL: ${{ inputs.cloudflare_url || 'https://clipcliper.com/mcp' }}
+      ORIGIN_URL: ${{ inputs.origin_url || 'https://up.clipcliper.com/mcp' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: "Cloudflare path, first attempt (what a directory health check sees)"
+        id: first
+        continue-on-error: true
+        run: node scripts/health-check.mjs "$CF_URL"
+
+      - name: "Cloudflare path, two more attempts 20 s apart"
+        id: retries
+        if: steps.first.outcome == 'failure'
+        continue-on-error: true
+        run: node scripts/health-check.mjs "$CF_URL" --attempts 2 --gap-seconds 20 --wait-first
+
+      - name: "Origin directly, bypassing Cloudflare"
+        id: origin
+        continue-on-error: true
+        run: node scripts/health-check.mjs "$ORIGIN_URL"
+
+      - name: "Origin-only failure is a warning, not an outage"
+        if: steps.first.outcome == 'success' && steps.origin.outcome == 'failure'
+        run: echo "::warning title=Origin probe failed::The Cloudflare path is healthy; only the direct probe from this runner to the origin failed."
+
+      - name: "VERDICT blip: one attempt through Cloudflare failed, recovered within a minute"
+        if: steps.first.outcome == 'failure' && steps.retries.outcome == 'success'
+        run: exit 1
+
+      - name: "VERDICT cloudflare-path-down: Cloudflare cannot reach the server, the server itself answers"
+        if: steps.first.outcome == 'failure' && steps.retries.outcome == 'failure' && steps.origin.outcome == 'success'
+        run: exit 1
+
+      - name: "VERDICT server-down: neither Cloudflare nor a direct connection gets an answer"
+        if: steps.first.outcome == 'failure' && steps.retries.outcome == 'failure' && steps.origin.outcome == 'failure'
+        run: exit 1
