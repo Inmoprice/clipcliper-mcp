@@ -69,12 +69,18 @@ jobs:
 
       - name: "VERDICT blip: one attempt through Cloudflare failed, recovered within a minute"
         if: steps.first.outcome == 'failure' && steps.retries.outcome == 'success'
-        run: exit 1
+        run: |
+          echo "::error title=VERDICT blip::BLIP - one attempt through Cloudflare failed and it recovered within a minute. A directory health check at that moment would have marked the server unhealthy."
+          exit 1
 
       - name: "VERDICT cloudflare-path-down: Cloudflare cannot reach the server, the server itself answers"
         if: steps.first.outcome == 'failure' && steps.retries.outcome == 'failure' && steps.origin.outcome == 'success'
-        run: exit 1
+        run: |
+          echo "::error title=VERDICT cloudflare-path-down::CLOUDFLARE PATH DOWN - Cloudflare could not reach the server on 3 attempts over a minute, but the server answers when contacted directly. Customers on clipcliper.com are affected."
+          exit 1
 
       - name: "VERDICT server-down: neither Cloudflare nor a direct connection gets an answer"
         if: steps.first.outcome == 'failure' && steps.retries.outcome == 'failure' && steps.origin.outcome == 'failure'
-        run: exit 1
+        run: |
+          echo "::error title=VERDICT server-down::SERVER DOWN - no answer through Cloudflare nor directly on 3 attempts over a minute."
+          exit 1
